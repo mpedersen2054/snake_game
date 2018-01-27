@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { genRandomCoords } from '../helpers'
+import { genRandomMouseCoords } from '../helpers'
 
 import Meta from './Meta'
 import Map from './Map'
@@ -24,8 +24,6 @@ for (var i = 0; i < dems.h; i++) {
     }
     initialBoard.push(row)
 }
-
-genRandomCoords()
 
 class SnakeGame extends Component {
     constructor() {
