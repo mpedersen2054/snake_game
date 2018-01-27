@@ -5,16 +5,24 @@ export default class Snake {
         this.tail = { x: 0, y: 0 }
         this.length = 4
 
-        this.direction = 'right'
+        this.direction = 'RIGHT'
         this.inflectionPoints = []
     }
 
-    generate(board) {
+    init(board) {
+        // generate initial snake
         let head = this.head.x
         while (head != -1) {
             board[0][head] = 1
             head--
         }
         return board
+    }
+
+    move(board, direction) {
+
+        // check if 
+
+        return { success: true, board: board }
     }
 }

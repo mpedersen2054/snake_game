@@ -5,12 +5,14 @@ export default class Mouse {
         this.y = null
     }
 
-    generate(board) {
-        // for straight direction only...
+    init(board) {
+        // generates mouse at random tile, re runs if it lands on init snake
         const randX = Math.floor(Math.random() * 24)
         const randY = Math.floor(Math.random() * 16)
-        if (randY == 0 && randX < 4) {
-            this.generate(board)
+        if (randY == 0) {
+            console.log('LANDED ON MOUSE -- RE GENERATING!!!')
+            console.log(`X: ${randX}, Y: ${randY}`)
+            return this.init(board)
         }
         this.x = randX
         this.y = randY

@@ -7,6 +7,13 @@ import Map from './Map'
 import Snake from '../objects/Snake'
 import Mouse from '../objects/Mouse'
 
+const KEYS = {
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+    LEFT: 37
+}
+
 const dems = { w: 24, h: 16 }
 var initialBoard = []
 
@@ -28,12 +35,16 @@ class SnakeGame extends Component {
             snake: null,
             mouse: null
         }
+        this.handleKeydown = this.handleKeydown.bind(this)
+    }
+    componentWillMount() {
+        window.addEventListener('keydown', this.handleKeydown)
     }
     componentDidMount() {
         let snake = new Snake()
         let mouse = new Mouse()
-        let boardWSnake = snake.generate(this.state.board)
-        let newBoard = mouse.generate(boardWSnake)
+        let boardWSnake = snake.init(this.state.board)
+        let newBoard = mouse.init(boardWSnake)
         this.setState(prevState => {
             return {
                 snake,
@@ -41,6 +52,15 @@ class SnakeGame extends Component {
                 board: newBoard
             }
         })
+    }
+    handleKeydown(e) {
+        const keyCode = e.keyCode
+        if (keyCode > 36 && keyCode < 41) {
+            e.preventDefault()
+            const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
+            const moveSnake = this.state.snake.move(this.state.board, direction)
+            console.log('move snake!', moveSnake)
+        }
     }
     render() {
         console.log(this.state)
