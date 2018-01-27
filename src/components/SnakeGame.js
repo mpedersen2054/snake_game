@@ -34,7 +34,8 @@ class SnakeGame extends Component {
             board: initialBoard,
             snake: null,
             mouse: null,
-            gameOver: null
+            gameOver: null,
+            message: null
         }
         this.handleKeydown = this.handleKeydown.bind(this)
     }
@@ -68,7 +69,7 @@ class SnakeGame extends Component {
             const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
             const moveSnake = this.state.snake.move(this.state.board, direction)
             if (moveSnake.gameOver) {
-                this.handleGameOver()
+                this.handleGameOver(moveSnake)
             }
             if (moveSnake.success) {
                 return this.setState(prevState => {
@@ -83,11 +84,12 @@ class SnakeGame extends Component {
         }
     }
 
-    handleGameOver() {
+    handleGameOver(moveRetObj) {
         window.removeEventListener('keydown', this.handleKeydown, false)
         return this.setState(prevState => {
             return {
-                gameOver: true
+                gameOver: true,
+                message: moveRetObj.message
             }
         })
     }
@@ -96,7 +98,9 @@ class SnakeGame extends Component {
         console.log('is game over???', this.state.gameOver)
         return(
             <main className="game-container">
-                <Meta gameOver={this.state.gameOver} />
+                <Meta
+                    gameOver={this.state.gameOver}
+                    message={this.state.message} />
                 <Map board={this.state.board} />
             </main>
         )

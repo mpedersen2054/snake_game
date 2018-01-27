@@ -36,14 +36,17 @@ export default class Snake {
     }
 
     move(board, dir) {
-        // dont allow snake to move into itself
+        let collideWithSelf = false // switch to true if collide w/ self
+
+        // dont allow snake to move the opposite direction it's going
         if (this.direction == 'RIGHT' && dir == 'LEFT' ||
             this.direction == 'DOWN' && dir == 'UP' ||
             this.direction == 'LEFT' && dir == 'RIGHT' ||
             this.direction == 'UP' && dir == 'DOWN') {
                 return {
                     success: false,
-                    gameOver: false
+                    gameOver: false,
+                    message: 'Cant go that way'
                 }
         }
 
@@ -55,11 +58,43 @@ export default class Snake {
             dir == 'UP' && this.head.y - 1 < 0) {
                 return {
                     success: false,
-                    gameOver: true
+                    gameOver: true,
+                    message: 'Collided with wall'
                 }
         }
 
-        // write collision code here ?
+        // if moving in DIRECTION, and the next space in the direction is a peice
+        // of the Snake -> end game =OR= If the space it's about to collide with
+        // is the tail, dont end, the new head should go where old tail was
+        if (dir == 'RIGHT' && board[this.head.y][this.head.x + 1] == 1) {
+            // check weather the peice about to collide with is the tail
+            if (!(this.head.y == this.tail.y && this.head.x + 1 == this.tail.x)) {
+                // set TRUE if the peice IS NOT the tail
+                collideWithSelf = true
+            }
+        } else if (dir == 'DOWN' && board[this.head.y + 1][this.head.x] == 1) {
+            if (!(this.head.y + 1 == this.tail.y && this.head.x == this.tail.x)) {
+                collideWithSelf = true
+            }
+        } else if (dir == 'LEFT' && board[this.head.y][this.head.x - 1] == 1) {
+            if (!(this.head.y == this.tail.y && this.head.x - 1 == this.tail.x)) {
+                collideWithSelf = true
+            }
+        } else if (dir == 'UP' && board[this.head.y - 1][this.head.x] == 1) {
+            if (!(this.head.y == this.tail.y - 1 && this.head.x == this.tail.x)) {
+                collideWithSelf = true
+            }
+        }
+
+        if (collideWithSelf) {
+            return {
+                success: false,
+                gameOver: true,
+                message: 'Collided with yourself'
+            }
+        }
+
+        // check for collision with Mouse
 
         // successful movement
         return this.handleMovement(board, dir)
@@ -105,8 +140,10 @@ export default class Snake {
         }
 
         // update board based on new head
-        board[this.head.y][this.head.x] = 1
+        // update the tail first, if the Snake is about to collide
+        // with it's tail, the tail should move outa the way
         board[this.tail.y][this.tail.x] = 0
+        board[this.head.y][this.head.x] = 1
 
         if (this.inflectionsPresent()) {
             // make the tail move towards the last inflection point
