@@ -110,7 +110,7 @@ export default class Snake {
 
         if (this.inflectionsPresent()) {
             // make the tail move towards the last inflection point
-            // instead of the direction its going
+            // instead of the direction the head is currently going
             if (oldestInflection.prevDir == 'RIGHT') {
                 this.tail.x += 1
             } else if (oldestInflection.prevDir == 'DOWN') {
@@ -121,7 +121,7 @@ export default class Snake {
                 this.tail.y -= 1
             }
         } else {
-            // move the tail accordingly if there is no inf pt
+            // move the tail accordingly if there is no inf pt's
             if (dir == 'RIGHT') {
                 this.tail.x += 1
             } else if (dir == 'DOWN') {
