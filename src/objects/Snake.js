@@ -35,10 +35,17 @@ export default class Snake {
         this.inflections = this.inflections.slice(1)
     }
 
+    // Checks for collision with Wall, Snake, and Mouse
+    // forbids the use from changing directions 180deg
+    // if no collision -> handle moving the Snake
     move(board, dir) {
         let collideWithSelf = false // switch to true if collide w/ self
+        let ateMouse = false // switch to true if collide with Mouse
+        let oldestInflection = this.inflectionsPresent()
+            ? this.getOldestInflection()
+            : null
 
-        // dont allow snake to move the opposite direction it's going
+        // dont allow snake to change 180deg direction
         if (this.direction == 'RIGHT' && dir == 'LEFT' ||
             this.direction == 'DOWN' && dir == 'UP' ||
             this.direction == 'LEFT' && dir == 'RIGHT' ||
@@ -95,8 +102,51 @@ export default class Snake {
         }
 
         // check for collision with Mouse
+        if (dir == 'RIGHT' && board[this.head.y][this.head.x + 1] == 2) {
+            // make the mouse's space a blank space
+            board[this.head.y][this.head.x + 1] = 0
+            ateMouse = true
+        } else if (dir == 'DOWN' && board[this.head.y + 1][this.head.x] == 2) {
+            board[this.head.y + 1][this.head.x] = 0
+            ateMouse = true
+        } else if (dir == 'LEFT' && board[this.head.y][this.head.x - 1] == 2) {
+            board[this.head.y][this.head.x - 1] = 0
+            ateMouse = true
+        } else if (dir == 'UP' && board[this.head.y - 1][this.head.x] == 2) {
+            board[this.head.y - 1][this.head.x] = 0
+            ateMouse = true
+        }
 
-        // successful movement
+        if (ateMouse) {
+            this.length += 1
+            if (oldestInflection.prevDir == 'RIGHT') {
+                // add the new coords for tail based on
+                // the direction of the last inflection pt
+                this.tail = {
+                    x: this.tail.x - 1,
+                    y: this.tail.y
+                }
+            } else if (oldestInflection.prevDir == 'DOWN') {
+                this.tail = {
+                    x: this.tail.x,
+                    y: this.tail.y - 1
+                }
+            } else if (oldestInflection.prevDir == 'LEFT') {
+                this.tail = {
+                    x: this.tail.x + 1,
+                    y: this.tail.y
+                }
+            } else if (oldestInflection.prevDir == 'UP') {
+                this.tail = {
+                    x: this.tail.x,
+                    y: this.tail.y + 1
+                }
+            }
+
+            board[this.tail.y][this.tail.x] = 1
+        }
+
+        // Move the snake and return functions return Obj
         return this.handleMovement(board, dir)
     }
 

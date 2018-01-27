@@ -66,6 +66,7 @@ class SnakeGame extends Component {
 
             const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
             const moveSnake = this.state.snake.move(this.state.board, direction)
+
             if (moveSnake.gameOver) {
                 this.handleGameOver(moveSnake)
             }
