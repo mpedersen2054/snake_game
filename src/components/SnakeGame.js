@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { genRandomMouseCoords } from '../helpers'
+import { genRandomMouseCoords, genBlankBoard } from '../helpers'
 
 import Meta from './Meta'
 import Map from './Map'
@@ -14,22 +14,11 @@ const KEYS = {
     LEFT: 37
 }
 
-const dems = { w: 24, h: 16 }
-var initialBoard = []
-
-for (var i = 0; i < dems.h; i++) {
-    var row = []
-    for (var k = 0; k < dems.w; k++) {
-        row.push(0)
-    }
-    initialBoard.push(row)
-}
-
 class SnakeGame extends Component {
     constructor() {
         super()
         this.state = {
-            board: initialBoard,
+            board: genBlankBoard(),
             snake: null,
             mouse: null,
             gameOver: null,
@@ -46,33 +35,26 @@ class SnakeGame extends Component {
         let snake = new Snake()
         let mouse = new Mouse()
         let boardWSnake = snake.init(this.state.board)
-        let newBoard = mouse.init(boardWSnake)
+        let boardWSnakeAndMouse = mouse.init(boardWSnake)
         this.setState(prevState => {
             return {
                 snake,
                 mouse,
-                board: newBoard,
+                board: boardWSnakeAndMouse,
                 gameOver: false
             }
         })
     }
 
     handleKeydown(e) {
-        const keyCode = e.keyCode
-
-        if (keyCode > 36 && keyCode < 41) {
+        if (e.keyCode > 36 && e.keyCode < 41) {
             e.preventDefault()
             let mouse,
                 board
 
-            // dont allow any methods / updating to happen if gameOver
-
-            const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
+            const direction = Object.keys(KEYS).find(k => KEYS[k] == e.keyCode)
             const movementResults = this.state.snake.move(this.state.board, direction)
-
             board = movementResults.board
-
-            console.log('?????????',board)
 
             if (movementResults.action == 'NEW_MOUSE') {
                 mouse = new Mouse()
@@ -92,8 +74,6 @@ class SnakeGame extends Component {
                     }
                 })
             }
-
-            // console.log(this.state.board)
         }
     }
 

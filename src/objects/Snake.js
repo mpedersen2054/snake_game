@@ -19,6 +19,7 @@ export default class Snake {
         return board
     }
 
+    // redundant operations on this.inflection
     getInflections() {
         return this.inflections
     }
@@ -260,7 +261,7 @@ export default class Snake {
 
         // remove the last inflection once the tail reaches it
         if (oldestInflection && this.tail.x == oldestInflection.x && this.tail.y == oldestInflection.y) {
-            console.log('TAIL REACHED THE LAST INFLECTION')
+            // console.log('TAIL REACHED THE LAST INFLECTION')
             this.removeOldestInflection()
         }
 
