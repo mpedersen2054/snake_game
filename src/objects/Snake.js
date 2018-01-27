@@ -36,16 +36,32 @@ export default class Snake {
     }
 
     move(board, dir) {
-        // write collision code here ?
-
         // dont allow snake to move into itself
         if (this.direction == 'RIGHT' && dir == 'LEFT' ||
             this.direction == 'DOWN' && dir == 'UP' ||
             this.direction == 'LEFT' && dir == 'RIGHT' ||
             this.direction == 'UP' && dir == 'DOWN') {
-                return { success: false }
+                return {
+                    success: false,
+                    gameOver: false
+                }
         }
 
+        // check if next move is into a wall
+        // only applicable to non-interval version for now...
+        if (dir == 'RIGHT' && this.head.x + 1 > 23 ||
+            dir == 'DOWN' && this.head.y + 1 > 15 ||
+            dir == 'LEFT' && this.head.x - 1 < 0 ||
+            dir == 'UP' && this.head.y - 1 < 0) {
+                return {
+                    success: false,
+                    gameOver: true
+                }
+        }
+
+        // write collision code here ?
+
+        // successful movement
         return this.handleMovement(board, dir)
     }
 
@@ -126,6 +142,7 @@ export default class Snake {
         // successful
         return {
             success: true,
+            gameOver: false,
             snake: this,
             board
         }

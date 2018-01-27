@@ -33,13 +33,14 @@ class SnakeGame extends Component {
         this.state = {
             board: initialBoard,
             snake: null,
-            mouse: null
+            mouse: null,
+            gameOver: null
         }
         this.handleKeydown = this.handleKeydown.bind(this)
     }
 
     componentWillMount() {
-        window.addEventListener('keydown', this.handleKeydown)
+        window.addEventListener('keydown', this.handleKeydown, false)
     }
 
     componentDidMount() {
@@ -51,34 +52,51 @@ class SnakeGame extends Component {
             return {
                 snake,
                 mouse,
-                board: newBoard
+                board: newBoard,
+                gameOver: false
             }
         })
     }
 
     handleKeydown(e) {
         const keyCode = e.keyCode
+
         if (keyCode > 36 && keyCode < 41) {
             e.preventDefault()
+            // dont allow any methods / updating to happen if gameOver
+
             const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
-            // const moveSnake = this.state.snake.move(this.state.board, direction)
             const moveSnake = this.state.snake.move(this.state.board, direction)
+            if (moveSnake.gameOver) {
+                this.handleGameOver()
+            }
             if (moveSnake.success) {
-                this.setState(prevState => {
+                return this.setState(prevState => {
                     return {
                         board: moveSnake.board,
                         snake: moveSnake.snake
                     }
                 })
             }
+
             // console.log(this.state.board)
         }
     }
-    
+
+    handleGameOver() {
+        window.removeEventListener('keydown', this.handleKeydown, false)
+        return this.setState(prevState => {
+            return {
+                gameOver: true
+            }
+        })
+    }
+
     render() {
+        console.log('is game over???', this.state.gameOver)
         return(
             <main className="game-container">
-                <Meta />
+                <Meta gameOver={this.state.gameOver} />
                 <Map board={this.state.board} />
             </main>
         )
