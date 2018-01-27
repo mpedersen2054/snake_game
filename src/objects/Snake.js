@@ -45,7 +45,7 @@ export default class Snake {
             // add inflection if it doesnt exist
             // if the last inf's 'x' is what head currently is, dont add another
             // (only applicable with non-setInterval...)
-            if (!oldestInflection || oldestInflection.y != this.head.y) {
+            if (!oldestInflection || (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)) {
                 if (this.direction != 'RIGHT') {
                     this.addInflection({
                         id: `${this.head.x}${this.head.y}`,
@@ -67,12 +67,14 @@ export default class Snake {
             if (this.inflectionsPresent()) {
                 // make the tail move towards the last inflection point
                 // instead of the direction its going
-                if (oldestInflection.prevDir == 'DOWN') {
-                    this.tail.y += 1
-                } else if (oldestInflection.prevDir == 'RIGHT') {
+                if (oldestInflection.prevDir == 'RIGHT') {
                     this.tail.x += 1
+                } else if (oldestInflection.prevDir == 'DOWN') {
+                    this.tail.y += 1
                 } else if (oldestInflection.prevDir == 'LEFT') {
                     this.tail.x -= 1
+                } else if (oldestInflection.prevDir == 'UP') {
+                    this.tail.y -= 1
                 }
             } else {
                 // move the tail down
@@ -93,7 +95,7 @@ export default class Snake {
             // add inflection if it doesnt exist
             // if the last inf's 'x' is what head currently is, dont add another
             // (only applicable with non-setInterval...)
-            if (!oldestInflection || oldestInflection.x != this.head.x) {
+            if (!oldestInflection || (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)) {
                 if (this.direction != 'DOWN') {
                     this.addInflection({
                         id: `${this.head.x}${this.head.y}`,
@@ -121,6 +123,8 @@ export default class Snake {
                     this.tail.y += 1
                 } else if (oldestInflection.prevDir == 'LEFT') {
                     this.tail.x -= 1
+                } else if (oldestInflection.prevDir == 'UP') {
+                    this.tail.y -= 1
                 }
             } else {
                 // move the tail down
@@ -136,7 +140,7 @@ export default class Snake {
 
 
         if (dir == 'LEFT') {
-            if (!oldestInflection || oldestInflection.y != this.head.y) {
+            if (!oldestInflection || (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)) {
                 if (this.direction != 'LEFT') {
                     this.addInflection({
                         id: `${this.head.x}${this.head.y}`,
@@ -164,6 +168,8 @@ export default class Snake {
                     this.tail.y += 1
                 } else if (oldestInflection.prevDir == 'LEFT') {
                     this.tail.x -= 1
+                } else if (oldestInflection.prevDir == 'UP') {
+                    this.tail.y -= 1
                 }
             } else {
                 // move the tail left
@@ -177,7 +183,53 @@ export default class Snake {
             }
         }
 
-        console.log(this.tail, this.getInflections())
+
+        if (dir == 'UP') {
+            // asdasdadad
+            if (!oldestInflection || (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)) {
+                if (this.direction != 'UP') {
+                    this.addInflection({
+                        id: `${this.head.x}${this.head.y}`,
+                        prevDir: this.direction,
+                        x: this.head.x,
+                        y: this.head.y
+                    })
+                }
+            }
+            // reassign, in case where there was no inflection when this move'DOWN' called
+            oldestInflection = this.getOldestInflection()
+
+            // update the direction, make the new head a snake, make the tail empty
+            this.direction = 'UP'
+            this.head.y -= 1
+            board[this.head.y][this.head.x] = 1
+            board[this.tail.y][this.tail.x] = 0
+
+            if (this.inflectionsPresent()) {
+                // make the tail move towards the last inflection point
+                // instead of the direction its going
+                if (oldestInflection.prevDir == 'RIGHT') {
+                    this.tail.x += 1
+                } else if (oldestInflection.prevDir == 'DOWN') {
+                    this.tail.y += 1
+                } else if (oldestInflection.prevDir == 'LEFT') {
+                    this.tail.x -= 1
+                } else if (oldestInflection.prevDir == 'UP') {
+                    this.tail.y -= 1
+                }
+            } else {
+                // move the tail left
+                this.tail.y -= 1
+            }
+
+            // remove the last inflection once the tail reaches it
+            if (oldestInflection && this.tail.x == oldestInflection.x && this.tail.y == oldestInflection.y) {
+                console.log('TAIL REACHED THE LAST INFLECTION')
+                this.removeOldestInflection()
+            }
+        }
+
+        console.log(this.getInflections())
 
         return { success: true, board: board, snake: this }
     }
