@@ -37,6 +37,15 @@ export default class Snake {
 
     move(board, dir) {
         // write collision code here ?
+
+        // dont allow snake to move into itself
+        if (this.direction == 'RIGHT' && dir == 'LEFT' ||
+            this.direction == 'DOWN' && dir == 'UP' ||
+            this.direction == 'LEFT' && dir == 'RIGHT' ||
+            this.direction == 'UP' && dir == 'DOWN') {
+                return { success: false }
+        }
+
         return this.handleMovement(board, dir)
     }
 
