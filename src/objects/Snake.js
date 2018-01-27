@@ -52,6 +52,7 @@ export default class Snake {
                     this.addInflection({
                         id: `${this.head.x}${this.head.y}`,
                         prevDir: this.direction,
+                        currDir: 'RIGHT',
                         x: this.head.x,
                         y: this.head.y
                     })
@@ -71,6 +72,8 @@ export default class Snake {
                 // instead of the direction its going
                 if (oldestInflection.prevDir == 'DOWN') {
                     this.tail.y += 1
+                } else if (oldestInflection.prevDir == 'RIGHT') {
+                    this.tail.x += 1
                 }
             } else {
                 // move the tail down
@@ -100,6 +103,7 @@ export default class Snake {
                     this.addInflection({
                         id: `${this.head.x}${this.head.y}`,
                         prevDir: 'RIGHT',
+                        currDir: 'DOWN',
                         x: this.head.x,
                         y: this.head.y
                     })
@@ -119,6 +123,8 @@ export default class Snake {
                 // instead of the direction its going
                 if (oldestInflection.prevDir == 'RIGHT') {
                     this.tail.x += 1
+                } else if (oldestInflection.prevDir == 'DOWN') {
+                    this.tail.y += 1
                 }
             } else {
                 // move the tail down
