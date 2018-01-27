@@ -1,7 +1,7 @@
 
 export default class Snake {
     constructor(args) {
-        this.head = { x: 5, y: 0 }
+        this.head = { x: 3, y: 0 }
         this.tail = { x: 0, y: 0 }
         this.length = 4
 
@@ -117,37 +117,75 @@ export default class Snake {
             ateMouse = true
         }
 
+        // probably can condense these...
+
         if (ateMouse) {
-            this.length += 1
-            if (oldestInflection.prevDir == 'RIGHT') {
-                // add the new coords for tail based on
-                // the direction of the last inflection pt
-                this.tail = {
-                    x: this.tail.x - 1,
-                    y: this.tail.y
+            // if there are inflections, use them
+            if (oldestInflection != null) {
+                if (oldestInflection.prevDir == 'RIGHT') {
+                    // add the new coords for tail based on
+                    // the direction of the last inflection pt
+                    this.tail = {
+                        x: this.tail.x - 1,
+                        y: this.tail.y
+                    }
+                } else if (oldestInflection.prevDir == 'DOWN') {
+                    this.tail = {
+                        x: this.tail.x,
+                        y: this.tail.y - 1
+                    }
+                } else if (oldestInflection.prevDir == 'LEFT') {
+                    this.tail = {
+                        x: this.tail.x + 1,
+                        y: this.tail.y
+                    }
+                } else if (oldestInflection.prevDir == 'UP') {
+                    this.tail = {
+                        x: this.tail.x,
+                        y: this.tail.y + 1
+                    }
                 }
-            } else if (oldestInflection.prevDir == 'DOWN') {
-                this.tail = {
-                    x: this.tail.x,
-                    y: this.tail.y - 1
-                }
-            } else if (oldestInflection.prevDir == 'LEFT') {
-                this.tail = {
-                    x: this.tail.x + 1,
-                    y: this.tail.y
-                }
-            } else if (oldestInflection.prevDir == 'UP') {
-                this.tail = {
-                    x: this.tail.x,
-                    y: this.tail.y + 1
+            } else {
+                // if no inflections just the the dir
+                if (dir == 'RIGHT') {
+                    this.tail = {
+                        x: this.tail.x - 1,
+                        y: this.tail.y
+                    }
+                } else if (dir == 'DOWN') {
+                    this.tail = {
+                        x: this.tail.x,
+                        y: this.tail.y - 1
+                    }
+                } else if (dir == 'LEFT') {
+                    this.tail = {
+                        x: this.tail.x + 1,
+                        y: this.tail.y
+                    }
+                } else if (dir == 'UP') {
+                    this.tail = {
+                        x: this.tail.x,
+                        y: this.tail.y + 1
+                    }
                 }
             }
 
             board[this.tail.y][this.tail.x] = 1
         }
 
-        // Move the snake and return functions return Obj
-        return this.handleMovement(board, dir)
+        let retObj = {}
+        let movementResults = this.handleMovement(board, dir)
+        if (movementResults.success) {
+            retObj.success = true
+            retObj.gameOver = false
+            retObj.board = movementResults.board
+            retObj.snake = this
+            retObj.action = ateMouse ? 'NEW_MOUSE' : null
+        } else {
+            retObj.success = false
+            retObj.message = 'Something went wrong with movement'
+        }
+        return retObj
     }
 
     handleMovement(board, dir) {
@@ -226,12 +264,7 @@ export default class Snake {
             this.removeOldestInflection()
         }
 
-        // successful
-        return {
-            success: true,
-            gameOver: false,
-            snake: this,
-            board
-        }
+        // if successful returns success:true and the updated board
+        return { success: true, board: board }
     }
 }

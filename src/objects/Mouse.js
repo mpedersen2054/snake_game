@@ -8,12 +8,15 @@ export default class Mouse {
     }
 
     init(board) {
+        console.log('INITTING MOUSE')
         // generates mouse at random tile, re runs if it lands on init snake
         let coords = genRandomMouseCoords()
-        if (coords.y == 0 && coords.x < 4) {
+        console.log('NEW COORDS', coords)
+        console.log('board in mouse...')
+        if (board[coords.y][coords.x] == 1) {
             // generated on snake
             console.log('LANDED ON MOUSE -- RE GENERATING!!!')
-            console.log(`X: ${randX}, Y: ${randY}`)
+            // console.log(`X: ${randX}, Y: ${randY}`)
             return this.init(board)
         }
         board[coords.y][coords.x] = 2;

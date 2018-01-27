@@ -62,19 +62,33 @@ class SnakeGame extends Component {
 
         if (keyCode > 36 && keyCode < 41) {
             e.preventDefault()
+            let mouse,
+                board
+
             // dont allow any methods / updating to happen if gameOver
 
             const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
-            const moveSnake = this.state.snake.move(this.state.board, direction)
+            const movementResults = this.state.snake.move(this.state.board, direction)
 
-            if (moveSnake.gameOver) {
-                this.handleGameOver(moveSnake)
+            board = movementResults.board
+
+            console.log('?????????',board)
+
+            if (movementResults.action == 'NEW_MOUSE') {
+                mouse = new Mouse()
+                board = mouse.init(board)
             }
-            if (moveSnake.success) {
+
+            if (movementResults.gameOver) {
+                this.handleGameOver(movementResults)
+            }
+            if (movementResults.success) {
                 return this.setState(prevState => {
                     return {
-                        board: moveSnake.board,
-                        snake: moveSnake.snake
+                        board: board,
+                        snake: movementResults.snake,
+                        mouse: (movementResults.action == 'NEW_MOUSE') ? mouse : prevState.mouse
+
                     }
                 })
             }
