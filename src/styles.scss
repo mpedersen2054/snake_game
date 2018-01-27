@@ -5,7 +5,7 @@
 
 body {
     font-size: 16px;
-    line-height: 1.2;
+    // line-height: 1.2;
     font-family: 'Alegreya Sans', sans-serif;
 }
 
@@ -13,12 +13,12 @@ body {
 .game-container {
     width: 60rem; // 960
     margin: 2rem auto;
-    border: 1px solid orange;
+    // border: 1px solid orange;
 }
 
 // Meta element
 .meta {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0;
     .left {
         width: 50%;
         float: left;
@@ -33,21 +33,33 @@ body {
 // Map element
 .map {
     clear: both;
-    
+    height: auto;
+    overflow: auto;
+    outline: 3px solid #000;
+    .square {
+        float: left;
+        width: 40px;
+        height: 40px;
+        border: 1px solid blue;
+    }
 }
 
 // Player element
 
 // Snake element
-.snake {}
+.snake {
+    background-color: green;
+}
 
 // Mouse element
-.mouse {}
+.mouse {
+    background-color: red;
+}
 
 
 // Media Queries
-@media screen and (max-width: 960px) {
-    .game-container {
-        width: 100%;
-    }
-}
+// @media screen and (max-width: 960px) {
+//     .game-container {
+//         width: 100%;
+//     }
+// }
