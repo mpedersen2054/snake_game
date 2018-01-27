@@ -1,6 +1,13 @@
 
 import React, { Component } from 'react'
 
-export default () => {
-    return <h1>hello snake gamedasdadad</h1>
+export default class SnakeGame extends Component {
+    constructor() {
+        super()
+    }
+    render() {
+        return(
+            <div>hello game!</div>
+        )
+    }
 }
