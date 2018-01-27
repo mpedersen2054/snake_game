@@ -19,10 +19,19 @@ export default class Snake {
         return board
     }
 
-    move(board, direction) {
+    move(board, dir) {
+        let len = this.length
+        if (dir == 'RIGHT') {
+            // check for collision
 
-        // check if 
+            // move the head 1 right, all other spaces will still be snake
+            this.head.x += 1
+            board[this.head.y][this.head.x] = 1
+            // make prev tail blank and update tail cords
+            board[this.tail.y][this.tail.x] = 0
+            this.tail.x += 1
+        }
 
-        return { success: true, board: board }
+        return { success: true, board: board, snake: this }
     }
 }

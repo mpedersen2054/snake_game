@@ -8,9 +8,15 @@ const Map = ({board}) => {
             return row.map(square => {
                 // determine what occupies the given space
                 let spaceOccupant
-                if (square == 1) spaceOccupant = 'snake'
-                else if (square == 2) spaceOccupant = 'mouse'
-                // else spaceOccupant = ''
+
+                if (square == 1) {
+                    spaceOccupant = 'snake'
+                } else if (square == 2) {
+                    spaceOccupant = 'mouse'
+                } else {
+                    spaceOccupant = ''
+                }
+
                 return(
                     <div className={`square ${spaceOccupant}`}></div>
                 )

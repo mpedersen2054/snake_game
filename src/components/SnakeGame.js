@@ -59,6 +59,14 @@ class SnakeGame extends Component {
             e.preventDefault()
             const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
             const moveSnake = this.state.snake.move(this.state.board, direction)
+            if (moveSnake.success) {
+                this.setState(prevState => {
+                    return {
+                        board: moveSnake.board,
+                        snake: moveSnake.snake
+                    }
+                })
+            }
             console.log('move snake!', moveSnake)
         }
     }
