@@ -72,12 +72,6 @@ export default class Snake {
             // reassign, in case where there was no inflection when this move'DOWN' called
             lastInflection = this.getLastInflection()
 
-            // remove the last inflection once the tail reaches it
-            if (lastInflection && this.tail.x == lastInflection.x && this.tail.y == lastInflection.y) {
-                console.log('TAIL REACHED THE LAST INFLECTION')
-                this.removeLastInflection()
-            }
-
             // update the direction, make the new head a snake, make the tail empty
             this.direction = 'DOWN'
             this.head.y += 1
@@ -95,6 +89,11 @@ export default class Snake {
                 this.tail.y += 1
             }
 
+            // remove the last inflection once the tail reaches it
+            if (lastInflection && this.tail.x == lastInflection.x && this.tail.y == lastInflection.y) {
+                console.log('TAIL REACHED THE LAST INFLECTION')
+                this.removeLastInflection()
+            }
         }
 
         return { success: true, board: board, snake: this }
