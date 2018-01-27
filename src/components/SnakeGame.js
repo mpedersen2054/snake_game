@@ -10,9 +10,9 @@ import Mouse from '../objects/Mouse'
 const dems = { w: 24, h: 16 }
 var initialBoard = []
 
-for (var i = 0; i < dems.w; i++) {
+for (var i = 0; i < dems.h; i++) {
     var row = []
-    for (var k = 0; k < dems.h; k++) {
+    for (var k = 0; k < dems.w; k++) {
         row.push(0)
     }
     initialBoard.push(row)
