@@ -67,11 +67,10 @@ class SnakeGame extends Component {
                     }
                 })
             }
-            console.log('move snake!', moveSnake)
+            // console.log(this.state.board)
         }
     }
     render() {
-        console.log(this.state)
         return(
             <main className="game-container">
                 <Meta />
