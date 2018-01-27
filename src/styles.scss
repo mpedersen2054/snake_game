@@ -8,3 +8,46 @@ body {
     line-height: 1.2;
     font-family: 'Alegreya Sans', sans-serif;
 }
+
+// Game element
+.game-container {
+    width: 60rem; // 960
+    margin: 2rem auto;
+    border: 1px solid orange;
+}
+
+// Meta element
+.meta {
+    padding: 1rem 0.5rem;
+    .left {
+        width: 50%;
+        float: left;
+    }
+    .right {
+        width: 50%;
+        float: left;
+        text-align: right;
+    }
+}
+
+// Map element
+.map {
+    clear: both;
+    
+}
+
+// Player element
+
+// Snake element
+.snake {}
+
+// Mouse element
+.mouse {}
+
+
+// Media Queries
+@media screen and (max-width: 960px) {
+    .game-container {
+        width: 100%;
+    }
+}

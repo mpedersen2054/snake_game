@@ -1,13 +1,23 @@
 
 import React, { Component } from 'react'
 
-export default class SnakeGame extends Component {
+import Meta from './Meta'
+import Map from './Map'
+
+class SnakeGame extends Component {
     constructor() {
         super()
+        this.state = {
+        }
     }
     render() {
         return(
-            <div>hello game!</div>
+            <main className="game-container">
+                <Meta />
+                <Map />
+            </main>
         )
     }
 }
+
+export default SnakeGame
