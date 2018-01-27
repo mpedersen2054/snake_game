@@ -37,9 +37,11 @@ class SnakeGame extends Component {
         }
         this.handleKeydown = this.handleKeydown.bind(this)
     }
+
     componentWillMount() {
         window.addEventListener('keydown', this.handleKeydown)
     }
+
     componentDidMount() {
         let snake = new Snake()
         let mouse = new Mouse()
@@ -53,11 +55,13 @@ class SnakeGame extends Component {
             }
         })
     }
+
     handleKeydown(e) {
         const keyCode = e.keyCode
         if (keyCode > 36 && keyCode < 41) {
             e.preventDefault()
             const direction = Object.keys(KEYS).find(k => KEYS[k] == keyCode)
+            // const moveSnake = this.state.snake.move(this.state.board, direction)
             const moveSnake = this.state.snake.move(this.state.board, direction)
             if (moveSnake.success) {
                 this.setState(prevState => {
@@ -70,6 +74,7 @@ class SnakeGame extends Component {
             // console.log(this.state.board)
         }
     }
+    
     render() {
         return(
             <main className="game-container">

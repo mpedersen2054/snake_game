@@ -36,12 +36,14 @@ body {
     height: auto;
     overflow: auto;
     outline: 3px solid #000;
-    .square {
-        float: left;
-        width: 40px;
-        height: 40px;
-        border: 1px solid blue;
-    }
+
+}
+
+.square {
+    float: left;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
 }
 
 // Player element
