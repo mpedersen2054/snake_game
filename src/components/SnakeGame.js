@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import { genRandomMouseCoords, genBlankBoard } from '../helpers'
+import ReactDOM from 'react-dom'
 
 import Meta from './Meta'
 import Map from './Map'
@@ -14,34 +15,48 @@ const KEYS = {
     LEFT: 37
 }
 
+const initialState = {
+    board: null,
+    snake: null,
+    mouse: null,
+    gameOver: null,
+    message: null,
+    score: null
+}
+
 class SnakeGame extends Component {
-    constructor() {
-        super()
-        this.state = {
-            board: genBlankBoard(),
-            snake: null,
-            mouse: null,
-            gameOver: null,
-            message: null
-        }
+    constructor(props) {
+        super(props)
+        this.state = initialState
         this.handleKeydown = this.handleKeydown.bind(this)
+        this.resetGame = this.resetGame.bind(this)
     }
 
     componentWillMount() {
-        window.addEventListener('keydown', this.handleKeydown, false)
+        // this.addEHandlers()
+        this.setMap()
     }
 
-    componentDidMount() {
+    // addEHandlers() {
+    //     window.addEventListener('keydown', this.handleKeydown, false)
+    // }
+
+    setMap() {
         let snake = new Snake()
         let mouse = new Mouse()
-        let boardWSnake = snake.init(this.state.board)
+        let board = genBlankBoard()
+        let boardWSnake = snake.init(board)
         let boardWSnakeAndMouse = mouse.init(boardWSnake)
+
+        window.addEventListener('keydown', this.handleKeydown, false)
+
         this.setState(prevState => {
             return {
                 snake,
                 mouse,
                 board: boardWSnakeAndMouse,
-                gameOver: false
+                gameOver: false,
+                score: 0
             }
         })
     }
@@ -69,7 +84,8 @@ class SnakeGame extends Component {
                     return {
                         board: board,
                         snake: movementResults.snake,
-                        mouse: (movementResults.action == 'NEW_MOUSE') ? mouse : prevState.mouse
+                        mouse: (movementResults.action == 'NEW_MOUSE') ? mouse : prevState.mouse,
+                        score: (movementResults.action == 'NEW_MOUSE') ? prevState.score + 10 : prevState.score
 
                     }
                 })
@@ -79,6 +95,9 @@ class SnakeGame extends Component {
 
     handleGameOver(moveRetObj) {
         window.removeEventListener('keydown', this.handleKeydown, false)
+
+        // submit the score to the server here
+
         return this.setState(prevState => {
             return {
                 gameOver: true,
@@ -87,13 +106,27 @@ class SnakeGame extends Component {
         })
     }
 
+    resetGame(e) {
+        e.preventDefault()
+        this.setState(initialState)
+        this.setMap()
+    }
+
     render() {
-        console.log('is game over???', this.state.gameOver)
+        console.log(this.state.snake.direction)
+        console.log(this.state.snake.inflections)
+        console.log(this.state.snake.head)
+        console.log(this.state.snake.tail)
+        console.log('===================================')
+        console.log('===================================')
         return(
             <main className="game-container">
                 <Meta
                     gameOver={this.state.gameOver}
-                    message={this.state.message} />
+                    message={this.state.message}
+                    score={this.state.score}
+                    resetGame={this.resetGame} />
+
                 <Map board={this.state.board} />
             </main>
         )

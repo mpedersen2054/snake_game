@@ -18,7 +18,9 @@ body {
 
 // Meta element
 .meta {
-    padding: 1rem 0;
+    padding: 0.5rem 0;
+    overflow: auto;
+
     .left {
         width: 50%;
         float: left;
@@ -26,11 +28,51 @@ body {
     .right {
         width: 50%;
         float: left;
+        font-size: 1.1rem;
         text-align: right;
+        margin-top: 0.25rem;
+
+        b {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .player,
+        .score {
+            display: inline-block;
+        }
+
+        .player {
+            padding-right: 0.5rem;
+            border-right: 1px solid #ccc;
+        }
+
+        .score {
+            padding-left: 0.5rem;
+        }
     }
+
+    .game-over,
+    .in-progress {
+        display: inline-block;
+        .large {
+            display: inline-block;
+            font-size: 1.5rem;
+        }
+        span {
+            margin-left: 0.5rem;
+        }
+    }
+
     .game-over {
-        font-size: 2rem;
-        color: red;
+        .large {
+            color: red;
+        }
+    }
+    .in-progress {
+        .large {
+            color: green;
+        }
     }
 }
 
@@ -43,14 +85,14 @@ body {
 
 }
 
-.square {
+.tile,
+.snake,
+.mouse {
     float: left;
     width: 40px;
     height: 40px;
     border: 1px solid #ccc;
 }
-
-// Player element
 
 // Snake element
 .snake {
@@ -61,7 +103,6 @@ body {
 .mouse {
     background-color: red;
 }
-
 
 // Media Queries
 // @media screen and (max-width: 960px) {

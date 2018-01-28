@@ -14,11 +14,11 @@ const Map = ({board}) => {
                 } else if (square == 2) {
                     spaceOccupant = 'mouse'
                 } else {
-                    spaceOccupant = ''
+                    spaceOccupant = 'tile'
                 }
 
                 return(
-                    <div className={`square ${spaceOccupant}`}></div>
+                    <div className={`${spaceOccupant}`}></div>
                 )
             })
         })

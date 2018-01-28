@@ -7,6 +7,11 @@ export default class Snake {
 
         this.direction = 'RIGHT'
         this.inflections = []
+
+        // handle edge case where after eating a Mouse & need to
+        // add a new tail, but the current tail is already board[0][X]
+        this.delayedTail = 0
+        this.delayedPos = null
     }
 
     init(board) {
@@ -170,6 +175,17 @@ export default class Snake {
                     }
                 }
             }
+
+
+            // need to fix edge case where the tail is current sitting at
+            // x: 0 || x: 23 ======= y: 0 || y: 15
+
+            // =============================================
+            // =============================================
+            // I THINK ERROR IS HAPPENING HERE, IT HAPPENS
+            // AFTER I EAT A MOUSE AND USUALLY GOING DOWN WITH 1 INFLECTION...
+            // =============================================
+            // =============================================
 
             board[this.tail.y][this.tail.x] = 1
         }
