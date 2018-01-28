@@ -113,12 +113,12 @@ class SnakeGame extends Component {
     }
 
     render() {
-        console.log(this.state.snake.direction)
-        console.log(this.state.snake.inflections)
-        console.log(this.state.snake.head)
+        // console.log(this.state.snake.direction)
+        // console.log(this.state.snake.inflections)
+        // console.log(this.state.snake.head)
         console.log(this.state.snake.tail)
-        console.log('===================================')
-        console.log('===================================')
+        // console.log('===================================')
+        // console.log('===================================')
         return(
             <main className="game-container">
                 <Meta

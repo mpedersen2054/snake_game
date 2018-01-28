@@ -47,9 +47,33 @@ export default class Snake {
     move(board, dir) {
         let collideWithSelf = false // switch to true if collide w/ self
         let ateMouse = false // switch to true if collide with Mouse
-        let oldestInflection = this.inflectionsPresent()
-            ? this.getOldestInflection()
-            : null
+        let oldestInflection = this.getOldestInflection()
+
+
+
+        let nonIntervalLogic = oldestInflection
+            ? (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)
+            : false
+
+        // add inflection if it doesnt exist
+        // if the last inf's 'x' is what head currently is, dont add another
+        // (only applicable with non-setInterval...)
+        if (!oldestInflection || nonIntervalLogic) {
+            if (this.direction != dir) { // diff direction than currently going
+                this.addInflection({
+                    id: `${this.head.x}${this.head.y}`,
+                    prevDir: this.direction,
+                    x: this.head.x,
+                    y: this.head.y
+                })
+            }
+        }
+
+
+
+        // assign in case it didnt exist before
+        oldestInflection = this.getOldestInflection()
+
 
         // dont allow snake to change 180deg direction
         if (this.direction == 'RIGHT' && dir == 'LEFT' ||
@@ -123,63 +147,37 @@ export default class Snake {
             ateMouse = true
         }
 
-        // probably can condense these...
+        // bug most likely happening somewhere in here
+        // hit a Mouse, and suddenly the tails Y was offtrack,
+        // and pressing DOWN was making tail.X go up... ???
+
+        // somewhere the tail is getting bumped off track,
+        // so at the bottom of handleMovement the inflection pt is never
+        // getting removed
 
         if (ateMouse) {
             // if there are inflections, use them
-            if (oldestInflection != null) {
+            if (this.inflectionsPresent()) {
                 if (oldestInflection.prevDir == 'RIGHT') {
                     // add the new coords for tail based on
                     // the direction of the last inflection pt
-                    // this.tail = {
-                    //     x: this.tail.x - 1,
-                    //     y: this.tail.y
-                    // }
                     this.tail.x -= 1
                 } else if (oldestInflection.prevDir == 'DOWN') {
-                    // this.tail = {
-                    //     x: this.tail.x,
-                    //     y: this.tail.y - 1
-                    // }
                     this.tail.y -= 1
                 } else if (oldestInflection.prevDir == 'LEFT') {
-                    // this.tail = {
-                    //     x: this.tail.x + 1,
-                    //     y: this.tail.y
-                    // }
                     this.tail.x += 1
                 } else if (oldestInflection.prevDir == 'UP') {
-                    // this.tail = {
-                    //     x: this.tail.x,
-                    //     y: this.tail.y + 1
-                    // }
                     this.tail.y += 1
                 }
             } else {
                 // if no inflections just the the dir
                 if (dir == 'RIGHT') {
-                    // this.tail = {
-                    //     x: this.tail.x - 1,
-                    //     y: this.tail.y
-                    // }
                     this.tail.x -= 1
                 } else if (dir == 'DOWN') {
-                    // this.tail = {
-                    //     x: this.tail.x,
-                    //     y: this.tail.y - 1
-                    // }
                     this.tail.y -= 1
                 } else if (dir == 'LEFT') {
-                    // this.tail = {
-                    //     x: this.tail.x + 1,
-                    //     y: this.tail.y
-                    // }
                     this.tail.x += 1
                 } else if (dir == 'UP') {
-                    // this.tail = {
-                    //     x: this.tail.x,
-                    //     y: this.tail.y + 1
-                    // }
                     this.tail.y += 1
                 }
             }
@@ -195,6 +193,7 @@ export default class Snake {
             // =============================================
             // =============================================
 
+            console.log('JUST ATE A MOUSE... ADDING PEICE TO TAIL')
             board[this.tail.y][this.tail.x] = 1
         }
 
@@ -215,23 +214,23 @@ export default class Snake {
 
     handleMovement(board, dir) {
         let oldestInflection = this.getOldestInflection()
-        let nonIntervalLogic = oldestInflection
-            ? (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)
-            : false
-
-        // add inflection if it doesnt exist
-        // if the last inf's 'x' is what head currently is, dont add another
-        // (only applicable with non-setInterval...)
-        if (!oldestInflection || nonIntervalLogic) {
-            if (this.direction != dir) { // diff direction than currently going
-                this.addInflection({
-                    id: `${this.head.x}${this.head.y}`,
-                    prevDir: this.direction,
-                    x: this.head.x,
-                    y: this.head.y
-                })
-            }
-        }
+        // let nonIntervalLogic = oldestInflection
+        //     ? (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)
+        //     : false
+        //
+        // // add inflection if it doesnt exist
+        // // if the last inf's 'x' is what head currently is, dont add another
+        // // (only applicable with non-setInterval...)
+        // if (!oldestInflection || nonIntervalLogic) {
+        //     if (this.direction != dir) { // diff direction than currently going
+        //         this.addInflection({
+        //             id: `${this.head.x}${this.head.y}`,
+        //             prevDir: this.direction,
+        //             x: this.head.x,
+        //             y: this.head.y
+        //         })
+        //     }
+        // }
 
         // assign in case it didnt exist before
         oldestInflection = this.getOldestInflection()
@@ -255,6 +254,7 @@ export default class Snake {
         // update board based on new head
         // update the tail first, if the Snake is about to collide
         // with it's tail, the tail should move outa the way
+        console.log('UPDATING SNAKE IN handleMovement')
         board[this.tail.y][this.tail.x] = 0
         board[this.head.y][this.head.x] = 1
 
@@ -288,6 +288,8 @@ export default class Snake {
             // console.log('TAIL REACHED THE LAST INFLECTION')
             this.removeOldestInflection()
         }
+
+        console.log('inflection', oldestInflection)
 
         // if successful returns success:true and the updated board
         return { success: true, board: board }
