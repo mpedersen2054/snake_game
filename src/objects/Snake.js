@@ -131,48 +131,56 @@ export default class Snake {
                 if (oldestInflection.prevDir == 'RIGHT') {
                     // add the new coords for tail based on
                     // the direction of the last inflection pt
-                    this.tail = {
-                        x: this.tail.x - 1,
-                        y: this.tail.y
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x - 1,
+                    //     y: this.tail.y
+                    // }
+                    this.tail.x -= 1
                 } else if (oldestInflection.prevDir == 'DOWN') {
-                    this.tail = {
-                        x: this.tail.x,
-                        y: this.tail.y - 1
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x,
+                    //     y: this.tail.y - 1
+                    // }
+                    this.tail.y -= 1
                 } else if (oldestInflection.prevDir == 'LEFT') {
-                    this.tail = {
-                        x: this.tail.x + 1,
-                        y: this.tail.y
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x + 1,
+                    //     y: this.tail.y
+                    // }
+                    this.tail.x += 1
                 } else if (oldestInflection.prevDir == 'UP') {
-                    this.tail = {
-                        x: this.tail.x,
-                        y: this.tail.y + 1
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x,
+                    //     y: this.tail.y + 1
+                    // }
+                    this.tail.y += 1
                 }
             } else {
                 // if no inflections just the the dir
                 if (dir == 'RIGHT') {
-                    this.tail = {
-                        x: this.tail.x - 1,
-                        y: this.tail.y
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x - 1,
+                    //     y: this.tail.y
+                    // }
+                    this.tail.x -= 1
                 } else if (dir == 'DOWN') {
-                    this.tail = {
-                        x: this.tail.x,
-                        y: this.tail.y - 1
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x,
+                    //     y: this.tail.y - 1
+                    // }
+                    this.tail.y -= 1
                 } else if (dir == 'LEFT') {
-                    this.tail = {
-                        x: this.tail.x + 1,
-                        y: this.tail.y
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x + 1,
+                    //     y: this.tail.y
+                    // }
+                    this.tail.x += 1
                 } else if (dir == 'UP') {
-                    this.tail = {
-                        x: this.tail.x,
-                        y: this.tail.y + 1
-                    }
+                    // this.tail = {
+                    //     x: this.tail.x,
+                    //     y: this.tail.y + 1
+                    // }
+                    this.tail.y += 1
                 }
             }
 
