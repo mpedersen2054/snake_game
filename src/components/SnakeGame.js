@@ -45,7 +45,7 @@ class SnakeGame extends Component {
     setGameInterval() {
         let gameTickInterval = setInterval(() => {
             this.gameTick(this.state.currentSnakeDir)
-        }, 500)
+        }, 200)
         this.setState(prevState => {
             return {
                 gameTickInterval: gameTickInterval
@@ -79,11 +79,22 @@ class SnakeGame extends Component {
         if (e.keyCode > 36 && e.keyCode < 41) {
             e.preventDefault()
             const direction = Object.keys(KEYS).find(k => KEYS[k] == e.keyCode)
-            this.setState(prevState => {
-                return {
-                    currentSnakeDir: direction
-                }
-            })
+            const currentSnakeDir = this.state.currentSnakeDir
+            // check weather the Player is trying to either move in the
+            // dir Snake is currently going in, or opposite or dir snake is going in
+            const possibleMove = currentSnakeDir != direction &&
+                !(currentSnakeDir == 'RIGHT' && direction == 'LEFT') &&
+                !(currentSnakeDir == 'DOWN' && direction == 'UP') &&
+                !(currentSnakeDir == 'LEFT' && direction == 'RIGHT') &&
+                !(currentSnakeDir == 'UP' && direction == 'DOWN')
+
+            if (possibleMove) {
+                    this.setState(prevState => {
+                        return {
+                            currentSnakeDir: direction
+                        }
+                    })
+            }
         }
     }
 
