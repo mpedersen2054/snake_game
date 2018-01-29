@@ -18,19 +18,26 @@ body {
 
 // Meta element
 .meta {
-    padding: 0.5rem 0;
+    position: relative;
+    top: -3px;
     overflow: auto;
 
+    .left,
+    .right {
+        min-height: 35px;
+    }
+
     .left {
-        width: 50%;
+        width: 60%;
         float: left;
+        padding-top: 0.25rem;
     }
     .right {
-        width: 50%;
+        width: 40%;
         float: left;
         font-size: 1.1rem;
         text-align: right;
-        margin-top: 0.25rem;
+        // margin-top: 0.25rem;
 
         b {
             font-size: 1.2rem;
@@ -38,17 +45,23 @@ body {
         }
 
         .player,
-        .score {
+        .score,
+        .speed {
             display: inline-block;
         }
 
         .player {
             padding-right: 0.5rem;
-            border-right: 1px solid #ccc;
         }
 
         .score {
             padding-left: 0.5rem;
+        }
+
+        .speed {
+            padding: 0.5rem;
+            border-right: 1px solid #dedede;
+            border-left: 1px solid #dedede;
         }
     }
 
@@ -59,7 +72,7 @@ body {
             display: inline-block;
             font-size: 1.5rem;
         }
-        span {
+        .message {
             margin-left: 0.5rem;
         }
     }
@@ -72,6 +85,27 @@ body {
     .in-progress {
         .large {
             color: green;
+        }
+    }
+
+    .message {
+        margin-right: 0.5rem;
+        padding-right: 0.5rem;
+        &.vert-line {
+            border-right: 1px solid #aaa;
+        }
+    }
+
+    .play-again-btn {
+        border: 1px solid #ccc;
+        outline: 0;
+        margin: 0 .25rem;
+        font-size: 0.9rem;
+        font-weight: 300;
+        padding: 2px 4px;
+
+        &.first {
+            margin-left: 1rem;
         }
     }
 }

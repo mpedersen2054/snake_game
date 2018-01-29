@@ -15,6 +15,12 @@ const KEYS = {
     LEFT: 37
 }
 
+const GAME_SPEEDS = {
+    SLOW: 400,
+    MEDIUM: 200,
+    FAST: 100
+}
+
 const initialState = {
     board: null,
     snake: null,
@@ -23,7 +29,8 @@ const initialState = {
     message: null,
     score: null,
     gameTickInterval: null,
-    currentSnakeDir: null
+    currentSnakeDir: null,
+    gameSpeed: null
 }
 
 class SnakeGame extends Component {
@@ -42,19 +49,20 @@ class SnakeGame extends Component {
         this.setGameInterval()
     }
 
-    setGameInterval() {
+    setGameInterval(speed = 'MEDIUM') {
         let gameTickInterval = setInterval(() => {
             this.gameTick(this.state.currentSnakeDir)
-        }, 200)
+        }, GAME_SPEEDS[speed])
         this.setState(prevState => {
             return {
-                gameTickInterval: gameTickInterval
+                gameTickInterval: gameTickInterval,
+                gameSpeed: speed
             }
         })
 
     }
 
-    setMap() {
+    setMap(gameSpeed) {
         let snake = new Snake()
         let mouse = new Mouse()
         let board = genBlankBoard()
@@ -109,7 +117,6 @@ class SnakeGame extends Component {
             mouse = new Mouse()
             board = mouse.init(board)
         }
-
         if (movementResults.gameOver) {
             this.handleGameOver(movementResults)
         }
@@ -139,11 +146,10 @@ class SnakeGame extends Component {
         })
     }
 
-    resetGame(e) {
-        e.preventDefault()
+    resetGame(gameSpeed) {
         this.setState(initialState)
         this.setMap()
-        this.setGameInterval()
+        this.setGameInterval(gameSpeed)
     }
 
     render() {
@@ -153,6 +159,7 @@ class SnakeGame extends Component {
                     gameOver={this.state.gameOver}
                     message={this.state.message}
                     score={this.state.score}
+                    gameSpeed={this.state.gameSpeed}
                     resetGame={this.resetGame} />
 
                 <Map board={this.state.board} />
