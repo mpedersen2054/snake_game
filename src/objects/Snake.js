@@ -41,6 +41,10 @@ export default class Snake {
         this.inflections = this.inflections.slice(1)
     }
 
+    changeDirection(newDir) {
+        this.direction = newDir
+    }
+
     // Checks for collision with Wall, Snake, and Mouse
     // forbids the use from changing directions 180deg
     // if no collision -> handle moving the Snake

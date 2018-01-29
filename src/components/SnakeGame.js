@@ -44,7 +44,9 @@ class SnakeGame extends Component {
     setGameInterval() {
         console.log('hello world!')
         console.log(this.state.snake)
-        let gameTickInterval = setInterval(this.gameTick('RIGHT'), 500)
+        let gameTickInterval = setInterval(() => {
+            this.gameTick(this.state.snake.direction)
+        }, 500)
         this.setState(prevState => {
             return {
                 gameTickInterval: gameTickInterval
@@ -77,15 +79,16 @@ class SnakeGame extends Component {
         if (e.keyCode > 36 && e.keyCode < 41) {
             e.preventDefault()
             const direction = Object.keys(KEYS).find(k => KEYS[k] == e.keyCode)
-            this.gameTick(direction)
+            this.state.snake.changeDirection(direction)
         }
     }
 
-    gameTick(snakeDir) {
+    gameTick() {
         let mouse, board
+
         // handle moving the snake, checks collision and returns an object
         // with a result, either success or fail & updates state accordingly
-        const movementResults = this.state.snake.move(this.state.board, snakeDir)
+        const movementResults = this.state.snake.move(this.state.board, this.state.snake.direction)
         board = movementResults.board
 
         if (movementResults.action == 'NEW_MOUSE') {
@@ -111,7 +114,7 @@ class SnakeGame extends Component {
 
     handleGameOver(moveRetObj) {
         window.removeEventListener('keydown', this.handleKeydown, false)
-
+        clearInterval(this.state.gameTickInterval)
         // submit the score to the server here
 
         return this.setState(prevState => {
