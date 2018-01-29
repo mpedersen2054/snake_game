@@ -48,15 +48,12 @@ export default class Snake {
         let collideWithSelf = false // switch to true if collide w/ self
         let ateMouse = false // switch to true if collide with Mouse
         let oldestInflection = this.getOldestInflection()
-
-
-
         let nonIntervalLogic = oldestInflection
             ? (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)
             : false
 
         // add inflection if it doesnt exist
-        // if the last inf's 'x' is what head currently is, dont add another
+        // if the last inf's 'x' & 'y' is what head currently is, dont add another
         // (only applicable with non-setInterval...)
         if (!oldestInflection || nonIntervalLogic) {
             if (this.direction != dir) { // diff direction than currently going
@@ -69,11 +66,8 @@ export default class Snake {
             }
         }
 
-
-
         // assign in case it didnt exist before
         oldestInflection = this.getOldestInflection()
-
 
         // dont allow snake to change 180deg direction
         if (this.direction == 'RIGHT' && dir == 'LEFT' ||
@@ -147,14 +141,7 @@ export default class Snake {
             ateMouse = true
         }
 
-        // bug most likely happening somewhere in here
-        // hit a Mouse, and suddenly the tails Y was offtrack,
-        // and pressing DOWN was making tail.X go up... ???
-
-        // somewhere the tail is getting bumped off track,
-        // so at the bottom of handleMovement the inflection pt is never
-        // getting removed
-
+        // if colide with mouse, update the tail
         if (ateMouse) {
             // if there are inflections, use them
             if (this.inflectionsPresent()) {
@@ -182,21 +169,11 @@ export default class Snake {
                 }
             }
 
-
-            // need to fix edge case where the tail is current sitting at
-            // x: 0 || x: 23 ======= y: 0 || y: 15
-
-            // =============================================
-            // =============================================
-            // I THINK ERROR IS HAPPENING HERE, IT HAPPENS
-            // AFTER I EAT A MOUSE AND USUALLY GOING DOWN WITH 1 INFLECTION...
-            // =============================================
-            // =============================================
-
-            console.log('JUST ATE A MOUSE... ADDING PEICE TO TAIL')
             board[this.tail.y][this.tail.x] = 1
         }
 
+        // if there were no game ending collision, run here
+        // moves the Snake with Snake.handleMovement and returns obj
         let retObj = {}
         let movementResults = this.handleMovement(board, dir)
         if (movementResults.success) {
@@ -214,26 +191,6 @@ export default class Snake {
 
     handleMovement(board, dir) {
         let oldestInflection = this.getOldestInflection()
-        // let nonIntervalLogic = oldestInflection
-        //     ? (oldestInflection.x != this.head.x || oldestInflection.y != this.head.y)
-        //     : false
-        //
-        // // add inflection if it doesnt exist
-        // // if the last inf's 'x' is what head currently is, dont add another
-        // // (only applicable with non-setInterval...)
-        // if (!oldestInflection || nonIntervalLogic) {
-        //     if (this.direction != dir) { // diff direction than currently going
-        //         this.addInflection({
-        //             id: `${this.head.x}${this.head.y}`,
-        //             prevDir: this.direction,
-        //             x: this.head.x,
-        //             y: this.head.y
-        //         })
-        //     }
-        // }
-
-        // assign in case it didnt exist before
-        oldestInflection = this.getOldestInflection()
 
         // update the direction & head based on
         // the direction for the Snake obj
@@ -254,7 +211,6 @@ export default class Snake {
         // update board based on new head
         // update the tail first, if the Snake is about to collide
         // with it's tail, the tail should move outa the way
-        console.log('UPDATING SNAKE IN handleMovement')
         board[this.tail.y][this.tail.x] = 0
         board[this.head.y][this.head.x] = 1
 
@@ -288,8 +244,6 @@ export default class Snake {
             // console.log('TAIL REACHED THE LAST INFLECTION')
             this.removeOldestInflection()
         }
-
-        console.log('inflection', oldestInflection)
 
         // if successful returns success:true and the updated board
         return { success: true, board: board }
