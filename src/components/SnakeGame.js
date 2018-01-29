@@ -22,7 +22,8 @@ const initialState = {
     gameOver: null,
     message: null,
     score: null,
-    gameTickInterval: null
+    gameTickInterval: null,
+    currentSnakeDir: null
 }
 
 class SnakeGame extends Component {
@@ -42,10 +43,8 @@ class SnakeGame extends Component {
     }
 
     setGameInterval() {
-        console.log('hello world!')
-        console.log(this.state.snake)
         let gameTickInterval = setInterval(() => {
-            this.gameTick(this.state.snake.direction)
+            this.gameTick(this.state.currentSnakeDir)
         }, 500)
         this.setState(prevState => {
             return {
@@ -70,7 +69,8 @@ class SnakeGame extends Component {
                 mouse,
                 board: boardWSnakeAndMouse,
                 gameOver: false,
-                score: 0
+                score: 0,
+                currentSnakeDir: 'RIGHT'
             }
         })
     }
@@ -79,16 +79,19 @@ class SnakeGame extends Component {
         if (e.keyCode > 36 && e.keyCode < 41) {
             e.preventDefault()
             const direction = Object.keys(KEYS).find(k => KEYS[k] == e.keyCode)
-            this.state.snake.changeDirection(direction)
+            this.setState(prevState => {
+                return {
+                    currentSnakeDir: direction
+                }
+            })
         }
     }
 
     gameTick() {
         let mouse, board
-
         // handle moving the snake, checks collision and returns an object
         // with a result, either success or fail & updates state accordingly
-        const movementResults = this.state.snake.move(this.state.board, this.state.snake.direction)
+        const movementResults = this.state.snake.move(this.state.board, this.state.currentSnakeDir)
         board = movementResults.board
 
         if (movementResults.action == 'NEW_MOUSE') {
@@ -129,10 +132,10 @@ class SnakeGame extends Component {
         e.preventDefault()
         this.setState(initialState)
         this.setMap()
+        this.setGameInterval()
     }
 
     render() {
-        console.log(this.state.snake.tail)
         return(
             <main className="game-container">
                 <Meta
