@@ -40,7 +40,7 @@ const Meta = (props) => {
                 {renderLeftMeta()}
             </div>
             <div className="right">
-                <div className="player"><b>Player:</b> Anon</div>
+                <div className="player"><b>Player:</b> {props.playerName}</div>
                 <div className="speed"><b>Speed:</b> {props.gameSpeed}</div>
                 <div className="score"><b>Score:</b> {props.score}</div>
             </div>

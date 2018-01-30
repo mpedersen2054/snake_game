@@ -29,7 +29,7 @@ class App extends Component {
 
     startGame(info) {
         this.setState({
-            playerInfo: info.name,
+            playerName: info.playerName,
             gameSpeed: info.gameSpeed,
             startGame: true
         })
