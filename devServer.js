@@ -1,3 +1,4 @@
+require('dotenv').config()
 
 var path = require('path'),
     express = require('express'),
@@ -8,6 +9,8 @@ var path = require('path'),
 
 var app = express(),
     compiler= webpack(config);
+
+require('./server/config/dbConnection')
 
 app.use(bodyParser.json())
 app.use(require('webpack-dev-middleware')(compiler, {
