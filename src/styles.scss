@@ -9,11 +9,27 @@ body {
     font-family: 'Alegreya Sans', sans-serif;
 }
 
-// Game element
-.game-container {
+// Main Containers
+.game-container,
+.landing-container {
     width: 60rem; // 960
     margin: 2rem auto;
     // border: 1px solid orange;
+}
+
+// Landing page
+.landing-container {
+    width: 40rem;
+    margin: 4rem auto;
+    padding: 1rem;
+
+    border: 1px solid orange;
+
+    h1 {
+        font-size: 6.5rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
 }
 
 // Meta element

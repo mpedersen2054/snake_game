@@ -3,9 +3,9 @@ import React from 'react'
 import { render } from 'react-dom'
 import style from './styles.scss'
 
-import SnakeGame from './components/SnakeGame'
+import App from './components/App'
 
 render(
-    <SnakeGame />,
+    <App />,
     document.getElementById('root')
 )
