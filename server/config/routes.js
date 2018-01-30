@@ -1,4 +1,5 @@
 // no need for controllers, very minimal routes
+let Score = require('../models/scores')
 
 const fakeScores = [
     {
@@ -29,7 +30,14 @@ const fakeScores = [
 
 module.exports = (app) => {
     app.get('/api/scores', (req, res) => {
-        res.json(fakeScores)
+        console.log('getting scors???')
+        Score.find((err, scores) => {
+            console.log('finding scores!')
+            console.log('err?', err)
+            console.log('scores:', scores)
+            res.json(scores)
+        })
+        // res.json(fakeScores)
     })
 
     app.post('/api/scores/add', (req, res) => {

@@ -1,5 +1,5 @@
 
-const mongoose = require('mongoose')
+let mongoose = require('mongoose')
 
 let scoreSchema = new mongoose.Schema({
     player: { type: String, required: true },
