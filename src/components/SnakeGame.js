@@ -141,16 +141,13 @@ class SnakeGame extends Component {
         const { playerName, score, gameSpeed } = this.state
         window.removeEventListener('keydown', this.handleKeydown, false)
         clearInterval(this.state.gameTickInterval)
-        console.log(playerName, score, gameSpeed)
         axios.post('/api/scores/add', {
             player: playerName,
             score: score,
             speed: gameSpeed
-        }).then(response => {
-            console.log('response!', response)
-        }).catch(err => {
-            console.log('There was an error.', err)
         })
+            .then(response => console.log('Successfully added score.'))
+            .catch(err => console.log('There was an error adding score.', err))
 
         return this.setState(prevState => {
             return {

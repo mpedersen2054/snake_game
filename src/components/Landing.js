@@ -80,7 +80,6 @@ class Landing extends Component {
     }
 
     render() {
-        console.log('score from state: ', this.state)
         return(
             <div className="landing-container">
                 <h1>Snake Game!</h1>
@@ -135,7 +134,6 @@ class Landing extends Component {
                         </thead>
                         <tbody>
                             {this.state.scores.map((playerScore, i) => {
-                                console.log(playerScore, i)
                                 return(
                                     <tr className="score" key={i}>
                                         <td>{playerScore.player}</td>
