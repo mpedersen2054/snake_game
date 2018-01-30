@@ -10,11 +10,10 @@ body {
 }
 
 // Main Containers
-.game-container,
+.app-container,
 .landing-container {
     width: 60rem; // 960
     margin: 2rem auto;
-    overflow: auto;
 }
 
 .player-info-container,
@@ -80,6 +79,11 @@ body {
         margin-top: 0.5rem;
         font-size: 1rem;
         padding: 0.75rem 0;
+        cursor: pointer;
+    }
+
+    .error {
+        color: red;
     }
 }
 

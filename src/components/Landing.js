@@ -2,18 +2,21 @@
 import React, { Component } from 'react'
 
 class Landing extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             name: '',
             gameSpeeds: [
                 { id: 0, text: 'Slow', selected: false, val: 'SLOW' },
                 { id: 1, text: 'Medium', selected: true, val: 'MEDIUM' },
                 { id: 2, text: 'Fast', selected: false, val: 'FAST' }
-            ]
+            ],
+            error: null
         }
         this.changeName = this.changeName.bind(this)
         this.changeSelector = this.changeSelector.bind(this)
+        this.checkForEnter = this.checkForEnter.bind(this)
+        this.validateInfo = this.validateInfo.bind(this)
     }
 
     changeName(e) {
@@ -31,8 +34,27 @@ class Landing extends Component {
         })
     }
 
-    validateInfo(idx) {
-        console.log('changing to selector :', idx)
+    checkForEnter(e) {
+        // pressed enter inside of the input
+        if (e.keyCode == 13) {
+            e.preventDefault()
+            this.validateInfo()
+        }
+    }
+
+    validateInfo() {
+        if (this.state.name.length < 1) {
+            this.setState({ error: 'Please enter a valid name' })
+        } else {
+            this.props.startGame({
+                playerName: this.state.name,
+                gameSpeed: this.state.gameSpeeds.find(speed => {
+                    if (speed.selected) {
+                        return speed
+                    }
+                }).val
+            })
+        }
     }
 
     render() {
@@ -48,6 +70,7 @@ class Landing extends Component {
                             <input
                                 onChange={this.changeName}
                                 value={this.state.name}
+                                onKeyDown={this.checkForEnter}
                                 type="text" />
                         </div>
 
@@ -69,6 +92,10 @@ class Landing extends Component {
 
                         <div className="form-section">
                             <button onClick={this.validateInfo}>Start</button>
+                        </div>
+
+                        <div className="form-section">
+                            <div className="error">{this.state.error}</div>
                         </div>
                     </div>
                 </div>
