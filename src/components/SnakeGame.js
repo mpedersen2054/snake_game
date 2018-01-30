@@ -155,6 +155,12 @@ class SnakeGame extends Component {
         this.setGameInterval(gameSpeed)
     }
 
+    viewLeaderboard(e) {
+        e.preventDefault()
+        console.log('viewing leaderboard!')
+        alert('viewing leaderboard!')
+    }
+
     render() {
         return(
             <main className="game-container">
@@ -167,6 +173,10 @@ class SnakeGame extends Component {
                     resetGame={this.resetGame} />
 
                 <Map board={this.state.board} />
+
+                <div className="view-leaderboard-container">
+                    <a onClick={this.viewLeaderboard}>View Leaderboard</a>
+                </div>
             </main>
         )
     }

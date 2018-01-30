@@ -34,6 +34,7 @@ const Meta = (props) => {
             )
         }
     }
+
     return(
         <div className="meta">
             <div className="left">
