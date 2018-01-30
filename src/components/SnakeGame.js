@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { genRandomMouseCoords, genBlankBoard } from '../helpers'
 import ReactDOM from 'react-dom'
+import axios from 'axios'
 
 import Meta from './Meta'
 import Map from './Map'
@@ -137,9 +138,19 @@ class SnakeGame extends Component {
     }
 
     handleGameOver(moveRetObj) {
+        const { playerName, score, gameSpeed } = this.state
         window.removeEventListener('keydown', this.handleKeydown, false)
         clearInterval(this.state.gameTickInterval)
-        // submit the score to the server here
+        console.log(playerName, score, gameSpeed)
+        axios.post('/api/scores/add', {
+            player: playerName,
+            score: score,
+            speed: gameSpeed
+        }).then(response => {
+            console.log('response!', response)
+        }).catch(err => {
+            console.log('There was an error.', err)
+        })
 
         return this.setState(prevState => {
             return {

@@ -1,6 +1,7 @@
 
 var path = require('path'),
     express = require('express'),
+    bodyParser = require('body-parser'),
     webpack = require('webpack'),
     config = require('./webpack.config.dev'),
     PORT = 5000;
@@ -8,11 +9,11 @@ var path = require('path'),
 var app = express(),
     compiler= webpack(config);
 
+app.use(bodyParser.json())
 app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
 }))
-
 app.use(require('webpack-hot-middleware')(compiler))
 
 // api routes

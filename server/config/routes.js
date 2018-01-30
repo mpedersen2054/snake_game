@@ -28,7 +28,11 @@ const fakeScores = [
 ]
 
 module.exports = (app) => {
-    app.get('/api/getScores', (req, res) => {
+    app.get('/api/scores', (req, res) => {
         res.json(fakeScores)
+    })
+
+    app.post('/api/scores/add', (req, res) => {
+        console.log('adding score!', req.body)
     })
 }
