@@ -30,12 +30,10 @@ const fakeScores = [
 
 module.exports = (app) => {
     app.get('/api/scores', (req, res) => {
-        console.log('getting scors???')
         Score.find((err, scores) => {
-            console.log('finding scores!')
-            console.log('err?', err)
-            console.log('scores:', scores)
-            res.json(scores)
+            if (!err) {
+                res.json({ success: true, scores })
+            }
         })
         // res.json(fakeScores)
     })

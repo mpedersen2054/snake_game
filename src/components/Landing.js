@@ -23,23 +23,20 @@ class Landing extends Component {
 
     componentDidMount() {
         // get the scores to show
-        console.log('getting scores???')
         axios.get('/api/scores')
             .then(response => {
-                // checks if response is array, if the route
-                // isnt correct the catch all will send html
-
-                console.log('response: ', response)
-                // if (typeof response.data == 'object') {
-                //     this.setState(prevState => {
-                //         return {
-                //             scores: [
-                //                 ...prevState.scores,
-                //                 ...response.data
-                //             ]
-                //         }
-                //     })
-                // }
+                if (typeof response.data == 'object'
+                    && response.status == 200
+                    && response.data.success) {
+                        this.setState(prevState => {
+                            return {
+                                scores: [
+                                    ...prevState.scores,
+                                    ...response.data.scores
+                                ]
+                            }
+                        })
+                }
             })
             .catch(err => console.log('There was an error!', err))
     }
