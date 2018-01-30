@@ -15,6 +15,9 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler))
 
+// api routes
+require('./server/config/routes')(app)
+
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
 
 app.listen(PORT, 'localhost', (err) => {

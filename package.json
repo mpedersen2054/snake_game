@@ -24,6 +24,7 @@
         "webpack-hot-middleware": "^2.0.0"
     },
     "dependencies": {
+        "axios": "^0.17.1",
         "express": "^4.13.3",
         "react": "^0.14.0",
         "react-dom": "^0.14.0"

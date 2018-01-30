@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react'
+import axios from 'axios'
 
 class Landing extends Component {
     constructor(props) {
@@ -11,12 +12,29 @@ class Landing extends Component {
                 { id: 1, text: 'Medium', selected: true, val: 'MEDIUM' },
                 { id: 2, text: 'Fast', selected: false, val: 'FAST' }
             ],
-            error: null
+            error: null,
+            scores: []
         }
         this.changeName = this.changeName.bind(this)
         this.changeSelector = this.changeSelector.bind(this)
         this.checkForEnter = this.checkForEnter.bind(this)
         this.validateInfo = this.validateInfo.bind(this)
+    }
+
+    componentDidMount() {
+        // get the scores to show
+        axios.get('/api/getScores')
+            .then(response => {
+                this.setState(prevState => {
+                    return {
+                        scores: [
+                            ...prevState.scores,
+                            ...response.data
+                        ]
+                    }
+                })
+            })
+            .catch(err => console.log('There was an error!', err))
     }
 
     changeName(e) {
@@ -58,6 +76,7 @@ class Landing extends Component {
     }
 
     render() {
+        console.log('score from state: ', this.state)
         return(
             <div className="landing-container">
                 <h1>Snake Game!</h1>
@@ -102,9 +121,27 @@ class Landing extends Component {
 
                 <div className="scores-container">
                     <div className="sub-head">Top scores</div>
-                    <div className="scores">
-                        hello scores
-                    </div>
+                    <table className="scores">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                                <th>Speed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.scores.map((playerScore, i) => {
+                                console.log(playerScore, i)
+                                return(
+                                    <tr className="score" key={i}>
+                                        <td>{playerScore.player}</td>
+                                        <td>{playerScore.score}</td>
+                                        <td>{playerScore.speed}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         )
