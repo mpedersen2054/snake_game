@@ -65,8 +65,10 @@ class Landing extends Component {
     }
 
     validateInfo() {
-        if (this.state.name.length < 1) {
-            this.setState({ error: 'Please enter a valid name' })
+        if (this.state.name.length < 2) {
+            this.setState({ error: 'Name must atleast 2 characters long.' })
+        } else if (this.state.name.length > 8) {
+            this.setState({ error: 'Name must be under 8 characters.' })
         } else {
             this.props.startGame({
                 playerName: this.state.name,
