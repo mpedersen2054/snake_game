@@ -8,7 +8,7 @@ class App extends Component {
     constructor() {
         super()
         this.state = {
-            startGame: false,
+            startGame: true,
             playerName: null,
             gameSpeed: null
         }
@@ -18,9 +18,12 @@ class App extends Component {
     renderContent() {
         if (this.state.startGame) {
             return(
+                // <SnakeGame
+                //     playerName={this.state.playerName}
+                //     gameSpeed={this.state.gameSpeed} />
                 <SnakeGame
-                    playerName={this.state.playerName}
-                    gameSpeed={this.state.gameSpeed} />
+                    playerName={'Matt'}
+                    gameSpeed={'SLOW'} />
             )
         } else {
             return <Landing startGame={this.startGame} />

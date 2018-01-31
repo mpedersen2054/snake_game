@@ -17,7 +17,8 @@ export default class Mouse {
             console.log('LANDED ON MOUSE -- RE GENERATING!!!')
             return this.init(board)
         }
-        board[coords.y][coords.x] = 2;
+        // board[coords.y][coords.x] = 2;
+        board[4][8] = 2;
         return board
     }
 }
