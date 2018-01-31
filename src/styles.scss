@@ -129,7 +129,7 @@ body {
         }
 
         th {
-            width: 33.33333%;
+            width: 25%;
             text-align: left;
             padding: 0.4rem 0.4rem;
             font-size: 0.9rem;
@@ -141,7 +141,7 @@ body {
         }
 
         td {
-            width: 33.33333%;
+            width: 25%;
             padding: 0.5rem 0.4rem;
         }
     }
@@ -303,4 +303,29 @@ body {
     a {
         font-size: 1.1rem;
     }
+}
+
+.leaderboard-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.close-leaderboard {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    text-align: right;
+    font-size: 6rem;
+    color: red;
+    cursor: pointer;
+}
+
+.leaderboard {
+    width: 40rem;
+    margin: 5rem auto;
+    background-color: #fff;
 }

@@ -32,7 +32,10 @@ const initialState = {
     gameTickInterval: null,
     currentSnakeDir: null,
     gameSpeed: null,
-    playerName: null
+    playerName: null,
+    openLeaderboard: null,
+    gatheringScores: null,
+    scores: []
 }
 
 class SnakeGame extends Component {
@@ -41,6 +44,8 @@ class SnakeGame extends Component {
         this.state = initialState
         this.handleKeydown = this.handleKeydown.bind(this)
         this.resetGame = this.resetGame.bind(this)
+        this.viewLeaderboard = this.viewLeaderboard.bind(this)
+        this.closeLeaderboard = this.closeLeaderboard.bind(this)
     }
 
     componentWillMount() {
@@ -166,10 +171,58 @@ class SnakeGame extends Component {
     viewLeaderboard(e) {
         e.preventDefault()
         console.log('viewing leaderboard!')
-        alert('viewing leaderboard!')
+        let { gameOver, gameSpeed } = this.state
+        // game currently in progress, basically pause the game
+        if (!gameOver) {
+            window.removeEventListener('keydown', this.handleKeydown, false)
+            clearInterval(this.state.gameTickInterval)
+        }
+        // get the scores and make the array the
+        // new scores, set openLeaderboard to true
+        axios.get('/api/scores')
+            .then(response => {
+                if (response.status == 200 && response.data.success) {
+                    this.setState(prevState => {
+                        return {
+                            scores: response.data.scores,
+                            openLeaderboard: true
+                        }
+                    })
+                }
+            })
+            .catch(err => console.log('Error getting scores.', err))
+    }
+
+    leaderboardElem() {
+        if (!this.state.openLeaderboard) {
+            return <div>closed leaderboard</div>
+        }
+        return(
+            <div className="leaderboard-container">
+                <div
+                    className="close-leaderboard"
+                    onClick={this.closeLeaderboard}>
+                        X
+                </div>
+                <div className="leaderboard">
+                    hello leaderboard
+                </div>
+            </div>
+        )
+    }
+
+    closeLeaderboard() {
+        console.log('closing leaderboard')
+        this.setState(prevState => {
+            return {
+                openLeaderboard: false,
+                scores: []
+            }
+        })
     }
 
     render() {
+        console.log('scores!', this.state.scores)
         return(
             <main className="game-container">
                 <Meta
@@ -185,6 +238,8 @@ class SnakeGame extends Component {
                 <div className="view-leaderboard-container">
                     <a onClick={this.viewLeaderboard}>View Leaderboard</a>
                 </div>
+
+                {this.leaderboardElem()}
             </main>
         )
     }

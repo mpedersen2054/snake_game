@@ -80,6 +80,7 @@ class Landing extends Component {
     }
 
     render() {
+        console.log(this.state)
         return(
             <div className="landing-container">
                 <h1>Snake Game!</h1>
@@ -130,15 +131,21 @@ class Landing extends Component {
                                 <th>Name</th>
                                 <th>Score</th>
                                 <th>Speed</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             {this.state.scores.map((playerScore, i) => {
+                                let date = new Date(playerScore.createdAt)
+                                let formattedDate = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear().toString().slice(2)}`
+                                let formattedSpeed = playerScore.speed.slice(0, 1) + playerScore.speed.slice(1).toLowerCase()
+                                console.log(formattedDate)
                                 return(
                                     <tr className="score" key={i}>
                                         <td>{playerScore.player}</td>
                                         <td>{playerScore.score}</td>
-                                        <td>{playerScore.speed}</td>
+                                        <td>{formattedSpeed}</td>
+                                        <td>{formattedDate}</td>
                                     </tr>
                                 )
                             })}
