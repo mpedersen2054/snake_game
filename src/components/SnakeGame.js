@@ -170,7 +170,6 @@ class SnakeGame extends Component {
 
     viewLeaderboard(e) {
         e.preventDefault()
-        console.log('viewing leaderboard!')
         let { gameOver, gameSpeed } = this.state
         // game currently in progress, basically pause the game
         if (!gameOver) {
@@ -195,7 +194,7 @@ class SnakeGame extends Component {
 
     leaderboardElem() {
         if (!this.state.openLeaderboard) {
-            return <div>closed leaderboard</div>
+            return <div></div>
         }
         return(
             <div className="leaderboard-container">
@@ -205,7 +204,33 @@ class SnakeGame extends Component {
                         X
                 </div>
                 <div className="leaderboard">
-                    hello leaderboard
+                    <div className="note">Note: closing this window will immediately resume the game if game is in progress</div>
+                    <h2>Leaderboard</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                                <th>Speed</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.scores.map((score, i) => {
+                                let date = new Date(score.createdAt)
+                                let formattedDate = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear().toString().slice(2)}`
+                                let formattedSpeed = score.speed.slice(0, 1) + score.speed.slice(1).toLowerCase()
+                                return(
+                                    <tr key={i}>
+                                        <td>{score.player}</td>
+                                        <td>{score.score}</td>
+                                        <td>{formattedSpeed}</td>
+                                        <td>{formattedDate}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         )
@@ -213,6 +238,11 @@ class SnakeGame extends Component {
 
     closeLeaderboard() {
         console.log('closing leaderboard')
+        let { gameOver, gameSpeed } = this.state
+        if (!gameOver) {
+            window.addEventListener('keydown', this.handleKeydown, false)
+            this.setGameInterval(gameSpeed)
+        }
         this.setState(prevState => {
             return {
                 openLeaderboard: false,

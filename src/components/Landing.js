@@ -139,7 +139,6 @@ class Landing extends Component {
                                 let date = new Date(playerScore.createdAt)
                                 let formattedDate = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear().toString().slice(2)}`
                                 let formattedSpeed = playerScore.speed.slice(0, 1) + playerScore.speed.slice(1).toLowerCase()
-                                console.log(formattedDate)
                                 return(
                                     <tr className="score" key={i}>
                                         <td>{playerScore.player}</td>
