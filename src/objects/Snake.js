@@ -251,6 +251,7 @@ export default class Snake {
         board[this.tail.y][this.tail.x] = (this.delayedTail) ? 1 : 0
         board[this.head.y][this.head.x] = 1
 
+        // only update the tail if it isnt supposed to be delayed
         if (!this.delayedTail) {
             if (this.inflectionsPresent()) {
                 // make the tail move towards the last inflection point
@@ -278,6 +279,7 @@ export default class Snake {
             }
         }
 
+        // revert delayedTail to 0 after its use
         if (this.delayedTail > 0) {
             this.delayedTail--
         }

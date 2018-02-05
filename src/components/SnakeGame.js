@@ -122,10 +122,10 @@ class SnakeGame extends Component {
         const movementResults = this.state.snake.move(this.state.board, this.state.currentSnakeDir)
         board = movementResults.board
 
-        // if (movementResults.action == 'NEW_MOUSE') {
-        //     mouse = new Mouse()
-        //     board = mouse.init(board)
-        // }
+        if (movementResults.action == 'NEW_MOUSE') {
+            mouse = new Mouse()
+            board = mouse.init(board)
+        }
         if (movementResults.gameOver) {
             this.handleGameOver(movementResults)
         }
@@ -146,13 +146,13 @@ class SnakeGame extends Component {
         const { playerName, score, gameSpeed } = this.state
         window.removeEventListener('keydown', this.handleKeydown, false)
         clearInterval(this.state.gameTickInterval)
-        // axios.post('/api/scores/add', {
-        //     player: playerName,
-        //     score: score,
-        //     speed: gameSpeed
-        // })
-        //     .then(response => console.log('Successfully added score.'))
-        //     .catch(err => console.log('There was an error adding score.', err))
+        axios.post('/api/scores/add', {
+            player: playerName,
+            score: score,
+            speed: gameSpeed
+        })
+            .then(response => console.log('Successfully added score.'))
+            .catch(err => console.log('There was an error adding score.', err))
 
         return this.setState(prevState => {
             return {
@@ -237,7 +237,6 @@ class SnakeGame extends Component {
     }
 
     closeLeaderboard() {
-        console.log('closing leaderboard')
         let { gameOver, gameSpeed } = this.state
         if (!gameOver) {
             window.addEventListener('keydown', this.handleKeydown, false)
@@ -252,7 +251,6 @@ class SnakeGame extends Component {
     }
 
     render() {
-        // console.log('scores!', this.state.scores)
         return(
             <main className="game-container">
                 <Meta
