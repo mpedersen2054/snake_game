@@ -18,7 +18,7 @@ export default class Mouse {
             return this.init(board)
         }
         // board[coords.y][coords.x] = 2;
-        board[4][8] = 2;
+        board[12][6] = 2;
         return board
     }
 }

@@ -148,24 +148,60 @@ export default class Snake {
                 if (oldestInflection.prevDir == 'RIGHT') {
                     // add the new coords for tail based on
                     // the direction of the last inflection pt
-                    this.tail.x -= 1
+                    // if the next assigned tail is out of bounds,
+                    // handle delaying the tail
+                    if (this.tail.x - 1 >= 0) {
+                        // new tail is NOT out of bounds
+                        this.tail.x -= 1
+                    } else {
+                        // new tail IS out of bounds
+                        this.delayedTail = 1
+                    }
                 } else if (oldestInflection.prevDir == 'DOWN') {
-                    this.tail.y -= 1
+                    if (this.tail.y - 1 >= 0) {
+                        this.tail.y -= 1
+                    } else {
+                        this.delayedTail = 1
+                    }
                 } else if (oldestInflection.prevDir == 'LEFT') {
-                    this.tail.x += 1
+                    if (this.tail.x + 1 <= 23) {
+                        this.tail.x += 1
+                    } else {
+                        this.delayedTail = 1
+                    }
                 } else if (oldestInflection.prevDir == 'UP') {
-                    this.tail.y += 1
+                    if (this.tail.y + 1 <= 15) {
+                        this.tail.y += 1
+                    } else {
+                        this.delayedTail = 1
+                    }
                 }
             } else {
                 // if no inflections just the the dir
                 if (dir == 'RIGHT') {
-                    this.tail.x -= 1
+                    if (this.tail.x - 1 >= 0) {
+                        this.tail.x -= 1
+                    } else {
+                        this.delayedTail = 1
+                    }
                 } else if (dir == 'DOWN') {
-                    this.tail.y -= 1
+                    if (this.tail.y - 1 >= 0) {
+                        this.tail.y -= 1
+                    } else {
+                        this.delayedTail = 1
+                    }
                 } else if (dir == 'LEFT') {
-                    this.tail.x += 1
+                    if (this.tail.x + 1 <= 23) {
+                        this.tail.x += 1
+                    } else {
+                        this.delayedTail = 1
+                    }
                 } else if (dir == 'UP') {
-                    this.tail.y += 1
+                    if (this.tail.y + 1 <= 15) {
+                        this.tail.y += 1
+                    } else {
+                        this.delayedTail = 1
+                    }
                 }
             }
 
@@ -211,32 +247,39 @@ export default class Snake {
         // update board based on new head
         // update the tail first, if the Snake is about to collide
         // with it's tail, the tail should move outa the way
-        board[this.tail.y][this.tail.x] = 0
+        // if there is a delayedTail, DO NOT wipe the previous tail
+        board[this.tail.y][this.tail.x] = (this.delayedTail) ? 1 : 0
         board[this.head.y][this.head.x] = 1
 
-        if (this.inflectionsPresent()) {
-            // make the tail move towards the last inflection point
-            // instead of the direction the head is currently going
-            if (oldestInflection.prevDir == 'RIGHT') {
-                this.tail.x += 1
-            } else if (oldestInflection.prevDir == 'DOWN') {
-                this.tail.y += 1
-            } else if (oldestInflection.prevDir == 'LEFT') {
-                this.tail.x -= 1
-            } else if (oldestInflection.prevDir == 'UP') {
-                this.tail.y -= 1
+        if (!this.delayedTail) {
+            if (this.inflectionsPresent()) {
+                // make the tail move towards the last inflection point
+                // instead of the direction the head is currently going
+                if (oldestInflection.prevDir == 'RIGHT') {
+                    this.tail.x += 1
+                } else if (oldestInflection.prevDir == 'DOWN') {
+                    this.tail.y += 1
+                } else if (oldestInflection.prevDir == 'LEFT') {
+                    this.tail.x -= 1
+                } else if (oldestInflection.prevDir == 'UP') {
+                    this.tail.y -= 1
+                }
+            } else {
+                // move the tail accordingly if there is no inf pt's
+                if (dir == 'RIGHT') {
+                    this.tail.x += 1
+                } else if (dir == 'DOWN') {
+                    this.tail.y += 1
+                } else if (dir == 'LEFT') {
+                    this.tail.x -= 1
+                } else if (dir == 'UP') {
+                    this.tail.y -= 1
+                }
             }
-        } else {
-            // move the tail accordingly if there is no inf pt's
-            if (dir == 'RIGHT') {
-                this.tail.x += 1
-            } else if (dir == 'DOWN') {
-                this.tail.y += 1
-            } else if (dir == 'LEFT') {
-                this.tail.x -= 1
-            } else if (dir == 'UP') {
-                this.tail.y -= 1
-            }
+        }
+
+        if (this.delayedTail > 0) {
+            this.delayedTail--
         }
 
         // remove the last inflection once the tail reaches it

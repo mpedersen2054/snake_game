@@ -122,10 +122,10 @@ class SnakeGame extends Component {
         const movementResults = this.state.snake.move(this.state.board, this.state.currentSnakeDir)
         board = movementResults.board
 
-        if (movementResults.action == 'NEW_MOUSE') {
-            mouse = new Mouse()
-            board = mouse.init(board)
-        }
+        // if (movementResults.action == 'NEW_MOUSE') {
+        //     mouse = new Mouse()
+        //     board = mouse.init(board)
+        // }
         if (movementResults.gameOver) {
             this.handleGameOver(movementResults)
         }
@@ -252,7 +252,7 @@ class SnakeGame extends Component {
     }
 
     render() {
-        console.log('scores!', this.state.scores)
+        // console.log('scores!', this.state.scores)
         return(
             <main className="game-container">
                 <Meta
