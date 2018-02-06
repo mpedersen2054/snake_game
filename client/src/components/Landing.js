@@ -137,7 +137,9 @@ class Landing extends Component {
                         </thead>
                         <tbody>
                             {this.state.scores.sort((a, b) => {
-                                return a['speed'].charCodeAt(0) - b['speed'].charCodeAt(0) || b['score'] - a['score']
+                                return a['speed'].charCodeAt(0) - b['speed'].charCodeAt(0)
+                                    || b['score'] - a['score']
+                                    || a['player'].charCodeAt(0) - b['player'].charCodeAt(0)
                             }).map((score, i) => {
                                 let date = new Date(score.createdAt)
                                 let formattedDate = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear().toString().slice(2)}`
