@@ -15,7 +15,11 @@ a {
 body {
     font-size: 16px;
     // line-height: 1.2;
-    font-family: 'Alegreya Sans', sans-serif;
+    font-family: Helvetica;
+}
+
+h1, h2, h3, h4, h5, h5 {
+    font-family: Courier New;
 }
 
 // Main Containers
@@ -43,6 +47,7 @@ body {
 
     .sub-head {
         background-color: #ccc;
+        font-family: Courier New;
         font-size: 1.2rem;
         text-transform: uppercase;
         padding: 0.5rem;
@@ -153,6 +158,18 @@ body {
         td {
             width: 25%;
             padding: 0.5rem 0.4rem;
+
+            &.fast {
+                color: red;
+            }
+
+            &.medium {
+                color: orange;
+            }
+
+            &.slow {
+                color: green;
+            }
         }
     }
 }
@@ -282,7 +299,7 @@ body {
     float: left;
     width: 40px;
     height: 40px;
-    border: 0.5px solid #ccc;
+    border: 1px solid #ddd;
 }
 
 // Snake element
@@ -378,5 +395,17 @@ body {
     td {
         width: 25%;
         padding: 0.5rem 0.4rem;
+
+        &.fast {
+            color: red;
+        }
+
+        &.medium {
+            color: orange;
+        }
+
+        &.slow {
+            color: green;
+        }
     }
 }

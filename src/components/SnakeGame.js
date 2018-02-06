@@ -216,7 +216,9 @@ class SnakeGame extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.scores.map((score, i) => {
+                            {this.state.scores.sort((a, b) => {
+                                return a['speed'].charCodeAt(0) - b['speed'].charCodeAt(0) || b['score'] - a['score']
+                            }).map((score, i) => {
                                 let date = new Date(score.createdAt)
                                 let formattedDate = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear().toString().slice(2)}`
                                 let formattedSpeed = score.speed.slice(0, 1) + score.speed.slice(1).toLowerCase()
@@ -224,7 +226,7 @@ class SnakeGame extends Component {
                                     <tr key={i}>
                                         <td>{score.player}</td>
                                         <td>{score.score}</td>
-                                        <td>{formattedSpeed}</td>
+                                        <td className={`${score.speed.toLowerCase()}`}>{formattedSpeed}</td>
                                         <td>{formattedDate}</td>
                                     </tr>
                                 )
