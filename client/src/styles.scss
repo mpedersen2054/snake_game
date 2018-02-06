@@ -184,14 +184,14 @@ h1, h2, h3, h4, h5, h5 {
     }
 
     .left {
-        width: 60%;
+        width: 55%;
         float: left;
-        padding-top: 0.25rem;
+        padding-top: 0.2rem;
     }
     .right {
-        width: 40%;
+        width: 45%;
         float: left;
-        font-size: 1.1rem;
+        font-size: 1rem;
         text-align: right;
 
         b {
@@ -206,15 +206,15 @@ h1, h2, h3, h4, h5, h5 {
         }
 
         .player {
-            padding-right: 0.5rem;
+            padding-right: 0.3rem;
         }
 
         .score {
-            padding-left: 0.5rem;
+            padding-left: 0.3rem;
         }
 
         .speed {
-            padding: 0.5rem;
+            padding: 0.3rem;
         }
     }
 
@@ -223,7 +223,7 @@ h1, h2, h3, h4, h5, h5 {
         display: inline-block;
         .large {
             display: inline-block;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
         .message {
             margin-left: 0.5rem;
