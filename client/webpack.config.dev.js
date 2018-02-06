@@ -27,9 +27,22 @@ module.exports = {
                 exclude: ['node_modules']
             },
             {
-                test: /\.js$/,
-                loaders: ['babel'],
-                include: path.join(__dirname, 'src')
+                test: /\.js?$/,
+                loader: 'babel',
+                include: path.join(__dirname, 'src'),
+                query: {
+                    stage: 0,
+                    plugins: ['react-transform'],
+                    extra: {
+                        'react-transform': [
+                            {
+                                'target': 'react-transform-hmr',
+                                'imports': ['react'],
+                                'locals': ['module']
+                            }
+                        ]
+                    }
+                }
             }
         ]
     }

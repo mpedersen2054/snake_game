@@ -10,3 +10,6 @@ package-lock.json
 notes.txt
 /notes.txt
 ./notes.txt
+client/dist
+/client/dist
+./client/dist
