@@ -3,7 +3,7 @@ require('dotenv').config()
 var path = require('path'),
     express = require('express'),
     bodyParser = require('body-parser'),
-    PORT = 5000;
+    PORT = 8080;
 
 var app = express()
 require('./server/config/dbConnection')
