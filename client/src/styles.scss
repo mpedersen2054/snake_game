@@ -156,6 +156,10 @@ h1, h2, h3, h4, h5, h5 {
         td {
             width: 25%;
             padding: 0.5rem 0.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            float: left;
 
             &.fast {
                 color: red;
